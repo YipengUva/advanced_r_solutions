@@ -63,6 +63,7 @@ all.equal(lapply(mtcars, pick(5)),
           lapply(mtcars, function(x) x[[5]]))
 
 ### 10.4.2 ecercises
+## 1.
 x <- runif(1000)
 funs <- list(
   min = function(x) min(x),
@@ -74,9 +75,15 @@ funs <- list(
 
 summary_yp_t <- function(fun_list){
   function(x){
-    lapply(fun_list, function(f) f(x))
+    lapply(fun_list, function(f, ...) f(...), x)
   }
 }
 
 summary_yp <- summary_yp_t(funs)
-summary_yp(x)
+unlist(summary_yp(x))
+
+## 2.
+# x$f(z)
+
+
+

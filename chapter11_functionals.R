@@ -1,6 +1,7 @@
 ### 11.1.2 exercises
 ## 1.
-# in lapply(trims, mean, x = x), x is a parameter for mean function
+# in mean(), there is ... to hold unsecified input
+# However, x = x rather than x must be used.
 
 ## 2.
 df <- data.frame(replicate(10, rnorm(6, 5, 4)))
@@ -162,4 +163,5 @@ Any <- function(f, l){
 All <- function(f, l){
   all(vapply(l, f, logical(1)))
 }
+
 
