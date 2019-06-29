@@ -2,3 +2,6 @@
 *.Rhistory
 *.README.md
 chapter4_vocabulary.R
+profiling-example.R
+sumRcpp.cpp
+tmp.cpp
