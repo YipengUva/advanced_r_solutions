@@ -29,7 +29,7 @@ NumericVector cumprodC(NumericVector x){
   out(0) = x(0);
   
   for(int i = 1; i < n; ++i){
-    out(i) += x(i) + out(i-1);
+    out(i) = x(i) * out(i-1);
   }
   
   return out;

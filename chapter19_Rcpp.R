@@ -7,13 +7,17 @@ sourceCpp("chapter19_Rcpp_19_1_7.cpp")
 x <- c(T, F, T)
 all(x)
 allC(x)
+all.equal(
+  all(x),
+  allC(x)
+)
 
 ## 2.
-x <- 1:1e3
-all.equal(cumsum(x),
+x <- 1:1e2
+all.equal(cumprod(x),
           cumprodC(x))
 microbenchmark(
-  cumsum(x),
+  cumprod(x),
   cumprodC(x)
 )
 
@@ -56,31 +60,71 @@ all.equal(
 )
 
 
+### 19.3.5 exerises
+library(Rcpp)
+sourceCpp("chapter19_Rcpp_19_3_5.cpp")
 
+## all function
+x <- c(TRUE, TRUE, NA, TRUE)
+allC(x, na_rm = TRUE)
+allC(x, na_rm = FALSE)
 
-sourceCpp("tmp.cpp")
-attribs()
+## cumprod
+x <- sample(c(1:8,NA,NA), 100, replace = TRUE)
+cumprodC(x, na_rm = TRUE)
+cumprodC(x, na_rm = FALSE)
 
+all.equal(
+  cumprodC(x, na_rm = TRUE),
+  cumprod(x[!is.na(x)]))
 
+## cumminC
+x <- sample(c(1:8,NA,NA), 100, replace = TRUE)
+cumminC(x, na_rm = TRUE)
+cumminC(x)
 
+all.equal(
+  cumminC(x, na_rm = TRUE),
+  cumminC(x[!is.na(x)])
+)
 
+## cummaxC
+x <- sample(c(1:8,NA,NA), 100, replace = TRUE)
+cummaxC(x, na_rm = TRUE)
+cummaxC(x)
 
+all.equal(
+  cummaxC(x, na_rm = TRUE),
+  cummax(x[!is.na(x)])
+)
 
+## diffC
+x <- sample(c(1:8,NA,NA), 100, replace = TRUE)
+diffC(x, lag = 2, na_rm = TRUE)
+diffC(x, lag = 2)
 
+all.equal(
+  diffC(x, lag = 2, na_rm = TRUE),
+  diff(x[!is.na(x)], lag = 2)
+)
 
+## rangeC
+x <- sample(c(1:8,NA,NA), 100, replace = TRUE)
+rangeC(x, na_rm = TRUE)
+rangeC(x)
 
+all.equal(
+  rangeC(x, na_rm = TRUE),
+  range(x[!is.na(x)])
+)
 
+## varC
+x <- sample(c(1:8,NA,NA), 100, replace = TRUE)
+varC(x, na_rm = TRUE)
+varC(x)
 
-
-
-
-
-
-
-
-
-
-
-
-
+all.equal(
+  varC(x, na_rm = TRUE),
+  var(x[!is.na(x)])
+)
 
