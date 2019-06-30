@@ -128,3 +128,78 @@ all.equal(
   var(x[!is.na(x)])
 )
 
+
+
+
+library(Rcpp)
+
+pdistR <- function(x, ys) {
+  sqrt((x - ys) ^ 2)
+}
+
+
+sourceCpp("tmp.cpp")
+
+x <- 0.5
+ys <- runif(1e6)
+all.equal(
+  pdistR(x, ys),
+  pdistCpp(x, ys),
+  pdistC2(x, ys))
+
+microbenchmark(
+  pdistR(x, ys),
+  pdistCpp(x, ys),
+  pdistC2(x, ys))
+
+any_naR <- function(x) any(is.na(x))
+
+x0 <- runif(1e5)
+x1 <- c(x0, NA)
+x2 <- c(NA, x0)
+microbenchmark(
+  any_naR(x0), any_naC(x0),
+  any_naR(x1), any_naC(x1),
+  any_naR(x2), any_naC(x2)
+)
+
+x <- runif(1e6)
+all.equal(
+  sum(x),
+  sum3(x),
+  sum4(x)
+)
+
+microbenchmark(
+  sum(x),
+  sum3(x),
+  sum4(x)
+)
+
+
+### 19.5.7
+library(Rcpp)
+sourceCpp("chapter19_Rcpp_19_5_7.cpp")
+
+## 1. medianC
+x <- sample(1:10, 10, replace = TRUE)
+medianC(x)
+median.default(x)
+
+x <- sample(1:10, 1e6, replace = TRUE)
+all.equal(
+  median.default(x),
+  medianC(x)
+)
+
+## 2. inC
+v <- 5
+x <- 1:10
+inC(v, x)
+
+v <- 11
+inC(v, x)
+
+
+
+
